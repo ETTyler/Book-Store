@@ -27,11 +27,15 @@ public class Checkout {
         List<Book> basketList = b1.getBookBasket();
         ArrayList<String[]> bookList = Tools.read("Data/Stock.txt");
         List<String[]> remove = new ArrayList<>();
+        System.out.println(b1.getQuantity());
 
         for (String[] row : bookList) {
             for (Book book : basketList) {
                 if (String.valueOf(book.getISBN()).equals(row[0])) {
                     int stock = Integer.parseInt(row[7].trim()) - book.getQuantity();
+                    System.out.println(Integer.parseInt(row[7].trim()));
+                    System.out.println(book.getQuantity());
+
                     if (stock == 0) {
                         remove.add(row);
                         break;
@@ -58,17 +62,16 @@ public class Checkout {
 
         if (status.equals("purchased")) {
             for (Book books : bookList) {
-                String log = c1.getID()+", "+c1.getPostcode()+", "+books.getISBN()+", "+books.getPrice()+", "+books.getQuantity()
-                        +status+", "+paymentType+", "+date+"\n";
+                String log = c1.getID()+", "+c1.getPostcode()+", "+books.getISBN()+", "+books.getPrice()+", "+books.getQuantity()+
+                        ", "+status+", "+paymentType+", "+date+"\n";
                 Tools.append("Data/ActivityLog.txt", log);
-                subtractStock();
             }
-
+            subtractStock();
         }
         else {
             for (Book books : bookList) {
-                String log = c1.getID()+", "+c1.getPostcode()+", "+books.getISBN()+", "+books.getPrice()+", "+books.getQuantity()
-                        +status+", , "+date+"\n";
+                String log = c1.getID()+", "+c1.getPostcode()+", "+books.getISBN()+", "+books.getPrice()+", "+books.getQuantity()+
+                        ", "+status+", , "+date+"\n";
                 Tools.append("Data/ActivityLog.txt", log);
             }
         }
