@@ -1,8 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.Scanner;
 
 public class User {
@@ -24,20 +22,22 @@ public class User {
         this.role = user[6];
     }
 
-    public String getRole() {
-        return this.role;
-    }
-
-    public String getName() {
-        return this.username;
-    }
-
     public String getID() {
         return this.id;
     }
 
+    public String getUsername() { return this.username; }
+
+    public String getHouseNum() { return this.houseNum; }
+
     public String getPostcode() {
         return this.postCode;
+    }
+
+    public String getCity(){ return  this.city; }
+
+    public String getRole() {
+        return this.role;
     }
 
     public void viewBooks() throws FileNotFoundException {
@@ -67,6 +67,10 @@ public class User {
             System.out.println(e.getMessage());
         }
     }
-    // create ViewBooks method
+    @Override
+    public String toString() {
+        return (getID() + ", " + getUsername() + ", " + getHouseNum() + ", "
+                + getPostcode()+ ", " + getCity() + ", " + getRole());
+    }
 
 }

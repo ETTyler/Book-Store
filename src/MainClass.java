@@ -1,20 +1,28 @@
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MainClass {
     public static void main(String[] args) throws IOException {
-        String[] book = {"1","2","3","4","5","6","7","8","9","10"};
-        String[] user = {"101", "user1", "Smith", "12", "LE11 3TU", "Loughborough", "admin"};
 
-        admin ad = new admin(user);
-        Customer c1 = new Customer(user);
-        ad.newBook(book);
-        //ad.viewBooks();
+        ArrayList<String[]> userList = Tools.read("Data/UserAccounts.txt");
+        ArrayList<String[]> bookList = Tools.read("Data/Stock.txt");
 
-        Book b1 = new Book(1, "2", "3", "4", "5", "6", 7, 8, "9", "10");
+        admin ad = null;
+        if (userList != null) {
+            ad = new admin(userList.get(1));
+        }
+
+        Customer c1 = new Customer(userList.get(2));
+        ad.viewBooks();
+
+        for (String[] user1: userList) {
+            System.out.println(Arrays.toString(user1));
+        }
+
+        Book b1 = new Book(bookList.get(1),2);
+        ad.newBook(b1);
         Basket basket = new Basket();
-        basket.addBook(b1);
-        basket.addBook(b1);
-        basket.addBook(b1);
         basket.addBook(b1);
 
         double cost = basket.getBasketTotal();
