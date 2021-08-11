@@ -22,7 +22,11 @@ public class User {
         this.role = user[6];
     }
 
-    public String getID() {
+    public User() {
+		
+	}
+
+	public String getID() {
         return this.id;
     }
 
@@ -34,16 +38,23 @@ public class User {
         return this.postCode;
     }
 
+    public String getSurname() { return this.surname; }
+    
     public String getCity(){ return  this.city; }
 
     public String getRole() {
         return this.role;
     }
 
-    public void viewBooks() throws FileNotFoundException {
+    /*
+     * Produces an ArrayList of Book objects by reading the text file
+     * and converting each line into objects. Once it has the list of
+     * objects it sorts them by their price in ascending order.
+     */
+    public ArrayList<Book> viewBooks() throws FileNotFoundException {
         try {
             ArrayList<Book> stockList = new ArrayList<>();
-            File inputFile = new File("Data/Stock.txt");
+            File inputFile = new File("Stock.txt");
             Scanner fileScanner = new Scanner(inputFile);
             Book book;
             while (fileScanner.hasNextLine()) {
@@ -54,18 +65,18 @@ public class User {
                         details[8].trim(), details[9].trim());
                 stockList.add(book);
             }
+            fileScanner.close();
 
             PriceComparator priceComp = new PriceComparator();
             stockList.sort(priceComp);
-            for (Book b1: stockList) {
-                System.out.println(b1);
-            }
+            
+            return stockList;
 
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.out.println(e.getMessage());
         }
+		return null;
     }
     @Override
     public String toString() {

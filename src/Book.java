@@ -1,3 +1,6 @@
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+
 public class Book {
     private int ISBN;
     private String bookType;
@@ -38,7 +41,7 @@ public Book(int ISBN, String bookType, String title, String language, String gen
         this.stock = Integer.parseInt(book[7].trim());
         this.addInfo1 = book[8].trim();
         this.addInfo2 = book[9].trim();
-        this.quantity = quantity;
+        this.setQuantity(quantity);
     }
 
     // This is the constructor for reading data from the file
@@ -56,7 +59,11 @@ public Book(int ISBN, String bookType, String title, String language, String gen
     }
 
     public double getPrice() {
-        return this.price;
+        return (this.price*this.quantity);
+    }
+    
+    public double getCost() {
+    	return (this.price);
     }
 
     public int getISBN() {
@@ -66,6 +73,10 @@ public Book(int ISBN, String bookType, String title, String language, String gen
     public int getQuantity() {
         return this.quantity;
     }
+    
+	public void setQuantity(int quantity) {
+		this.quantity = quantity;
+	}
 
     public String getAddInfo1() {
         return this.addInfo1;
@@ -96,11 +107,29 @@ public Book(int ISBN, String bookType, String title, String language, String gen
     }
 
     public int getStock() {return this.stock; }
+    
+    // Checks to see if the ISBN of a book already exists in the text file
+    public Boolean alreadyExists() {
+    	ArrayList<String[]> bookList = null;
+		try {
+			bookList = Tools.read("Stock.txt");
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+        for (String[] row : bookList) {
+        	if (Integer.parseInt(row[0]) == this.ISBN) {
+        		return true;
+        	}
+		}
+        return false;
+    }
 
     @Override
     public String toString() {
         return (getISBN() + ", " + getBookType() + ", " + getTitle() + ", "
                 + getLanguage()+ ", " + getGenre() + ", " + getReleaseDate() + ", "
-                + getPrice() + ", " + getStock() + ", " + getAddInfo1() + ", " + getAddInfo2());
+                + getCost() + ", " + getStock() + ", " + getAddInfo1() + ", " + getAddInfo2());
     }
+
 }
